@@ -8,35 +8,21 @@ class ListNode:
 
 class Solution:
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        if not head:
-            return None
-        elif not head.next:
-            return head
+        prev, curr = None, head
 
-        vals: list[int] = []
+        # Swap the pointers to the next nodes (next points to prev and vice versa)
+        while curr:
+            nxt = curr.next
+            curr.next = prev
+            prev = curr
+            curr = nxt
 
-        while head:
-            vals.append(head.val)
-            head = head.next
+        return prev
 
-        newHead: ListNode = ListNode(vals[-1])
-        curr: ListNode = newHead
-
-        for i in range(len(vals)):
-            if i == 0:
-                curr = ListNode(vals[-(i + 1)])
-                newHead.next = curr
-            else:
-                curr.next = ListNode(vals[-(i + 1)])
-                curr = curr.next
-
-        return newHead.next
-
-e: ListNode = ListNode(5)
-d: ListNode = ListNode(4, e)
+d: ListNode = ListNode(4)
 c: ListNode = ListNode(3, d)
 b: ListNode = ListNode(2, c)
 a: ListNode = ListNode(1, b)
 
 sol = Solution()
-print(sol.reverseList(a).val)
+print(sol.reverseList(a).next.next.next.val)
